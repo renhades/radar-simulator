@@ -23,6 +23,21 @@ var time = 0;
 
 var degToPi = Math.PI / 180;
 
+// 產生十個敵人的資訊
+var enemies = Array(10).fill({}).map(
+  function (obj) {
+    return {
+      r: Math.random() * 200,
+      deg: Math.random() * 360,
+      opacity: 0
+    }
+  }
+);
+
+function color(opacity) {
+  return "rgba(185, 147, 98," + opacity + ")";
+}
+
 function point(r, deg) {
   return {
     x: r * Math.cos( deg * degToPi ),
@@ -68,13 +83,22 @@ function draw() {
 
     // var newPoint = point(r, deg);
     ctx.beginPath();
-    ctx.fillStyle = "rgba(185, 147, 98," + opacity + ")";
+    ctx.fillStyle = color(opacity);
 
     ctx.moveTo(0, 0);
     ctx.lineTo(point1.x, point1.y);
     ctx.lineTo(point2.x, point2.y);
     ctx.fill();
   }
+
+  // 敵人
+  enemies.forEach(function (obj) {
+    var newPoint = point(obj.r, obj.deg);
+    ctx.beginPath();
+    ctx.fillStyle = color(1);
+    ctx.arc(newPoint.x, newPoint.y, 10, 0, 2 * Math.PI);
+    ctx.fill();
+  })
 }
 
 $(window).ready(getWindowSize);
