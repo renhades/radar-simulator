@@ -158,6 +158,36 @@ function draw() {
     ctx.lineTo(point2.x, point2.y);
     ctx.stroke();
   }
+
+  function conditionCircle(r, lineWidth, funcCond) {
+    ctx.beginPath();
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = color(1);
+
+    for(var i = 0; i <= 360; i ++) {
+      var newPoint = point(r, i);
+
+      if (funcCond(i)) {
+        ctx.lineTo(newPoint.x, newPoint.y);
+      } else {
+        ctx.moveTo(newPoint.x, newPoint.y);
+      }
+    }
+
+    ctx.stroke();
+  }
+
+  conditionCircle(300, 2, function (deg){
+    return (deg%180) < 90;
+  });
+
+  conditionCircle(100, 1, function (deg){
+    return (deg%3) < 1;
+  });
+
+  conditionCircle(190, 1, function (deg){
+    return true;
+  });
 }
 
 $(window).ready(getWindowSize);
