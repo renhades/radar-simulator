@@ -59,15 +59,21 @@ function draw() {
 
   // 有漸層的掃掠線
   for (var i = 0; i < 100; i++) {
-    var deg = time - i;
-    // console.log(deg)
-    var newPoint = point(r, deg);
+    // var deg = time - i; // 100 條掃掠線
+    var deg1 = time - i - 1; // 小小角度差，製造小三角形
+    var deg2 = time - i;
+    var point1 = point(r, deg1);
+    var point2 = point(r, deg2);
+    var opacity = 1 - i/100;
+
+    // var newPoint = point(r, deg);
     ctx.beginPath();
-    ctx.strokeStyle = "rgba(185, 147, 98," + (1 - i/100) + ")";
+    ctx.fillStyle = "rgba(185, 147, 98," + opacity + ")";
 
     ctx.moveTo(0, 0);
-    ctx.lineTo(newPoint.x, newPoint.y);
-    ctx.stroke();
+    ctx.lineTo(point1.x, point1.y);
+    ctx.lineTo(point2.x, point2.y);
+    ctx.fill();
   }
 }
 
