@@ -67,6 +67,7 @@ function draw() {
   var r = 200;
   var deg = time;
   var newPoint = point(r, deg);
+  var lineDeg = time % 360;
   // ctx.beginPath();
   // ctx.moveTo(0, 0);
   // ctx.lineTo(newPoint.x, newPoint.y);
@@ -93,12 +94,43 @@ function draw() {
 
   // 敵人
   enemies.forEach(function (obj) {
-    var newPoint = point(obj.r, obj.deg);
+    var objPoint = point(obj.r, obj.deg);
+
+    // 用圓形表示敵人
     ctx.beginPath();
-    ctx.fillStyle = color(1);
-    ctx.arc(newPoint.x, newPoint.y, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = color(obj.opacity);
+    ctx.arc(
+      objPoint.x, objPoint.y,
+      4, 0, 2 * Math.PI);
     ctx.fill();
-  })
+
+    // 用叉叉表示敵人
+    ctx.beginPath();
+    var xSize = 6;
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = color(obj.opacity);
+    // 左上 -> 右下
+    ctx.moveTo(objPoint.x - xSize, objPoint.y + xSize);
+    ctx.lineTo(objPoint.x + xSize, objPoint.y - xSize);
+    // 右上 -> 左下
+    ctx.moveTo(objPoint.x + xSize, objPoint.y + xSize);
+    ctx.lineTo(objPoint.x - xSize, objPoint.y - xSize);
+    ctx.stroke();
+
+    if (Math.abs(obj.deg - lineDeg) <= 1) {
+      obj.opacity = 1;
+      $(".message").text("Detected " + obj.r.toFixed(3) + ', ' + obj.deg.toFixed(3));
+    }
+    obj.opacity *= 0.99;
+
+    ctx.beginPath();
+    ctx.strokeStyle = color(obj.opacity);
+    ctx.lineWidth = 1;
+    ctx.arc(
+      objPoint.x, objPoint.y,
+      8*(1/obj.opacity + 0.00001), 0, 2 * Math.PI);
+    ctx.stroke();
+  });
 }
 
 $(window).ready(getWindowSize);
