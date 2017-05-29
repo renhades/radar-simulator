@@ -21,6 +21,15 @@ function getWindowSize() {
 setInterval(draw, 10);
 var time = 0;
 
+var degToPi = Math.PI / 180;
+
+function point(r, deg) {
+  return {
+    x: r * Math.cos( deg * degToPi ),
+    y: r * Math.sin( deg * degToPi )
+  }
+}
+
 function draw() {
   time += 1;
 
@@ -31,11 +40,22 @@ function draw() {
   ctx.fill();
 
   // X, Y 軸
+  ctx.beginPath();
   ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
   ctx.moveTo(-ww/2, 0);
   ctx.lineTo(ww/2, 0);
   ctx.moveTo(0, -wh/2);
   ctx.lineTo(0, wh/2);
+  ctx.stroke();
+
+  // 掃掠線
+  var r = 100;
+  var deg = 45;
+  var newPoint = point(r, deg);
+  ctx.beginPath();
+  ctx.strokeStyle = "rgba(255, 255, 255, 1)";
+  ctx.moveTo(0, 0);
+  ctx.lineTo(newPoint.x, newPoint.y);
   ctx.stroke();
 }
 
