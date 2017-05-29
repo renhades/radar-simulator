@@ -49,14 +49,26 @@ function draw() {
   ctx.stroke();
 
   // 掃掠線
-  var r = 100;
-  var deg = 45;
+  var r = 200;
+  var deg = time;
   var newPoint = point(r, deg);
-  ctx.beginPath();
-  ctx.strokeStyle = "rgba(255, 255, 255, 1)";
-  ctx.moveTo(0, 0);
-  ctx.lineTo(newPoint.x, newPoint.y);
-  ctx.stroke();
+  // ctx.beginPath();
+  // ctx.moveTo(0, 0);
+  // ctx.lineTo(newPoint.x, newPoint.y);
+  // ctx.stroke();
+
+  // 有漸層的掃掠線
+  for (var i = 0; i < 100; i++) {
+    var deg = time - i;
+    // console.log(deg)
+    var newPoint = point(r, deg);
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(185, 147, 98," + (1 - i/100) + ")";
+
+    ctx.moveTo(0, 0);
+    ctx.lineTo(newPoint.x, newPoint.y);
+    ctx.stroke();
+  }
 }
 
 $(window).ready(getWindowSize);
