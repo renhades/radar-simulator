@@ -130,7 +130,34 @@ function draw() {
       objPoint.x, objPoint.y,
       8*(1/obj.opacity + 0.00001), 0, 2 * Math.PI);
     ctx.stroke();
+
   });
+
+  // 刻度
+  var graduation = 120;
+  var featuredGra = 15;
+  var rGra = 230;
+  var lengthGra = 5;
+
+  for (var i = 0; i < graduation; i ++) {
+    ctx.beginPath();
+    var deg = (i/120) * 360;
+    var point1 = point(rGra, deg);
+    var point2 = point(rGra + lengthGra, deg);
+
+    if (i % featuredGra == 0) {
+      lengthGra = 10;
+      ctx.lineWidth = 3;
+    } else {
+      lengthGra = 5;
+      ctx.lineWidth = 1;
+    }
+
+    ctx.strokeStyle = color(1);
+    ctx.moveTo(point1.x, point1.y);
+    ctx.lineTo(point2.x, point2.y);
+    ctx.stroke();
+  }
 }
 
 $(window).ready(getWindowSize);
